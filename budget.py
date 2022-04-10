@@ -34,18 +34,27 @@ class Category:
             return False
 
     def check_funds(self, amount):
-        if amount > self.get_balance:
+        if amount > self.get_balance():
             return False
         
         else:
             return True
 
     def __str__(self):
-        # Imprimir una linea de 30 carácteres, donde el nombre de la categoría 
-        # está centrada en una linea de *
+        mensaje = f'{self.nombre.center(30, "*")}\n'
 
-        # Luego, una lista de cada 
-        return
+        for i in self.ledger:
+            description = f'{i["description"]:23}'
+            amount = f'{i["amount"]:>7.2f}'
+
+            linea = f'{description}{amount}\n'
+
+            mensaje += linea
+            
+        final = f'Total: {self.get_balance()}'
+        mensaje += final
+
+        return mensaje
     
 
 # Esta función recibirá hasta 4 categorías. 
