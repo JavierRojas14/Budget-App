@@ -64,8 +64,24 @@ class Category:
 
 # Esta función recibirá hasta 4 categorías. 
 def create_spend_chart(categories):
+    bar_chart = None
     datos_para_hacer_grafico = obtener_porcentajes_de_gasto(categories)
-    return datos_para_hacer_grafico
+    lineas_del_mensaje = {}
+
+    for i in range(100, -10, -10):
+        lineas_del_mensaje[i] = f'{i}|'
+    
+    # Se me ocurre que cada linea se le edite las lineas desde su porcentaje hacia abajo.
+    # Ej: Si una categoria tiene el 70% de los gastos, entonces las lineas de lineas_del_mensaje
+    # desde el lineas_del_mensaje[70] hasta el lineas_del_mensaje[0] se le deben agregar o en la 
+    # columna 1!.
+    for categoria in datos_para_hacer_grafico.keys():
+        porcentaje_de_categoria = datos_para_hacer_grafico[categoria]
+
+
+        
+
+    return str(bar_chart)
 
 def obtener_porcentajes_de_gasto(categories):
     todo_lo_gastado = {}
@@ -88,8 +104,3 @@ def obtener_porcentajes_de_gasto(categories):
         todo_lo_gastado[nombre_categoria] = porcentaje
 
     return todo_lo_gastado 
-            
-
-
-
-    return str(bar_chart)
