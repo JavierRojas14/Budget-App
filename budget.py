@@ -88,8 +88,10 @@ def create_spend_chart(categories):
                     lineas_del_grafico[numero_linea] += f' o'
     
     bar_chart = 'Percentage spent by category \n'
+
     for numero_linea in lineas_del_grafico.keys():
         bar_chart += f'{lineas_del_grafico[numero_linea]} \n'    
+
 
     largo_barra_final = len(lineas_del_grafico[0])
     barra_horizontal = ''
@@ -102,6 +104,9 @@ def create_spend_chart(categories):
             barra_horizontal += '-'
 
     bar_chart += barra_horizontal
+
+    # Para poner los nombres en vertical, me tinca ocupar algún zip, o algo asi.
+    # Onda, hacer tuplas de los nombres de las categorías [(x1, y1, z1), (x2, y2, z2) ... (xn, yn, zn)]
 
     return str(bar_chart)
 
