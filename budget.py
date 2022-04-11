@@ -64,4 +64,32 @@ class Category:
 
 # Esta función recibirá hasta 4 categorías. 
 def create_spend_chart(categories):
+    datos_para_hacer_grafico = obtener_porcentajes_de_gasto(categories)
+    return datos_para_hacer_grafico
+
+def obtener_porcentajes_de_gasto(categories):
+    todo_lo_gastado = {}
+
+    total_gastado = 0
+    for categoria in categories:
+        gastado_por_categoria = 0
+        for transaccion in categoria.ledger:
+            if transaccion['amount'] < 0:
+                gastado_por_categoria += transaccion['amount']
+            
+        todo_lo_gastado[f'{categoria.nombre}'] = gastado_por_categoria
+        total_gastado += gastado_por_categoria
+    
+    todo_lo_gastado['Total'] = total_gastado
+
+    for nombre_categoria in todo_lo_gastado.keys():
+        porcentaje = (todo_lo_gastado[nombre_categoria] / todo_lo_gastado['Total']) * 100
+        porcentaje = round(porcentaje / 10) * 10
+        todo_lo_gastado[nombre_categoria] = porcentaje
+
+    return todo_lo_gastado 
+            
+
+
+
     return str(bar_chart)
