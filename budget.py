@@ -44,7 +44,12 @@ class Category:
         mensaje = f'{self.nombre.center(30, "*")}\n'
 
         for i in self.ledger:
-            description = f'{i["description"]:23}'
+            if len(i['description']) > 23:
+                description = i['description'][:23]
+
+            else:
+                description = f'{i["description"]:23}'
+            
             amount = f'{i["amount"]:>7.2f}'
 
             linea = f'{description}{amount}\n'
