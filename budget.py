@@ -1,3 +1,5 @@
+import itertools
+
 class Category:
     def __init__(self, nombre):
         self.nombre = nombre
@@ -75,17 +77,24 @@ def create_spend_chart(categories):
     # Ej: Si una categoria tiene el 70% de los gastos, entonces las lineas de lineas_del_mensaje
     # desde el lineas_del_mensaje[70] hasta el lineas_del_mensaje[0] se le deben agregar o en la 
     # columna 1!.
+    primera_categoria = True
     for categoria in datos_para_hacer_grafico.keys():
-        if categoria != 'Total':
-            porcentaje_de_categoria = datos_para_hacer_grafico[categoria]
-            agregar_os = False
+        porcentaje_de_categoria = datos_para_hacer_grafico[categoria]
+        
+        agregar_os = False
 
-            for numero_linea in lineas_del_grafico.keys():
-                if numero_linea == porcentaje_de_categoria:
-                    agregar_os = True
+        for numero_linea in lineas_del_grafico.keys():
+            if numero_linea == porcentaje_de_categoria:
+                agregar_os = True
 
-                if agregar_os:
+            if agregar_os:
+                if primera_categoria:
                     lineas_del_grafico[numero_linea] += f' o'
+                
+                else:
+                    lineas_del_grafico[numero_linea] += f'  o'
+        
+        primera_categoria = False
     
     bar_chart = 'Percentage spent by category \n'
 
@@ -103,10 +112,16 @@ def create_spend_chart(categories):
         else:
             barra_horizontal += '-'
 
-    bar_chart += barra_horizontal
+    bar_chart += f'{barra_horizontal}\n'
 
     # Para poner los nombres en vertical, me tinca ocupar algún zip, o algo asi.
     # Onda, hacer tuplas de los nombres de las categorías [(x1, y1, z1), (x2, y2, z2) ... (xn, yn, zn)]
+    leyenda = ''
+    for x, y, z in itertools.zip_longest(*datos_para_hacer_grafico.keys(), fillvalue = ' '):
+        nueva_linea = f'      {x}  {y}  {z} \n'
+        leyenda += nueva_linea
+    
+    bar_chart += leyenda
 
     return str(bar_chart)
 
@@ -129,5 +144,7 @@ def obtener_porcentajes_de_gasto(categories):
         porcentaje = (todo_lo_gastado[nombre_categoria] / todo_lo_gastado['Total']) * 100
         porcentaje = round(porcentaje / 10) * 10
         todo_lo_gastado[nombre_categoria] = porcentaje
+
+    del todo_lo_gastado['Total'] 
 
     return todo_lo_gastado 
