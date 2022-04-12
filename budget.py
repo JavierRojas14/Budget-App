@@ -96,7 +96,11 @@ def create_spend_chart(categories):
         
         primera_categoria = False
     
-    bar_chart = 'Percentage spent by category \n'
+    for linea in lineas_del_grafico.keys():
+        if 'o' not in lineas_del_grafico[linea]:
+            lineas_del_grafico[linea] = lineas_del_grafico[linea].ljust(len(lineas_del_grafico[0]))
+    
+    bar_chart = 'Percentage spent by category\n'
 
     for numero_linea in lineas_del_grafico.keys():
         bar_chart += f'{lineas_del_grafico[numero_linea]} \n'    
@@ -123,7 +127,7 @@ def create_spend_chart(categories):
     
     bar_chart += leyenda
 
-    return str(bar_chart)
+    return bar_chart
 
 def obtener_porcentajes_de_gasto(categories):
     todo_lo_gastado = {}
@@ -142,9 +146,12 @@ def obtener_porcentajes_de_gasto(categories):
 
     for nombre_categoria in todo_lo_gastado.keys():
         porcentaje = (todo_lo_gastado[nombre_categoria] / todo_lo_gastado['Total']) * 100
-        porcentaje = round(porcentaje / 10) * 10
+        porcentaje = round_down(porcentaje, 10)
         todo_lo_gastado[nombre_categoria] = porcentaje
 
     del todo_lo_gastado['Total'] 
 
     return todo_lo_gastado 
+
+def round_down(numero, divisor):
+    return numero - (numero%divisor)
