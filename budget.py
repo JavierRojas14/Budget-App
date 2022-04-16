@@ -96,15 +96,11 @@ def create_spend_chart(categories):
         
         primera_categoria = False
     
-    for linea in lineas_del_grafico.keys():
-        if 'o' not in lineas_del_grafico[linea]:
-            lineas_del_grafico[linea] = lineas_del_grafico[linea].ljust(len(lineas_del_grafico[0]))
-    
     bar_chart = 'Percentage spent by category\n'
 
-    for numero_linea in lineas_del_grafico.keys():
-        bar_chart += f'{lineas_del_grafico[numero_linea]} \n'    
-
+    for key, value in lineas_del_grafico.items():
+        lineas_del_grafico[key] = value.ljust(len(lineas_del_grafico[0]), ' ')
+        bar_chart += f'{lineas_del_grafico[key]}\n'   
 
     largo_barra_final = len(lineas_del_grafico[0])
     barra_horizontal = ''
